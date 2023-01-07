@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+
+	<style>
+
+		body{
+			display: flex;
+		}
+
+		
+	</style>
+</head>
+<body>
+
+	<div id="users">
+		
+	</div>
+
+	<div id="scores">
+
+	</div>
+
+
+	<script>
+		const socket = io()
+		let scores = document.getElementById("scores")
+		let users = document.getElementById("users")
+
+		let children = users.children
+
+		socket.on("shit", (data,usernames) => {
+			createScore(data)
+		})
+
+		socket.on("scores", (data) => {
+			data.forEach(niga => {
+				createScores(niga)
+			})
+		})
+
+		socket.on("shit2", user => {
+			createUser(user)
+		})
+		
+		socket.on("usernames", (usernames) => {
+			usernames.forEach(username => {
+				createUsers(username)
+			})
+		})
+
+		function createUsers(username){
+			let usr = document.createElement("h1")
+
+			if (username.name !== undefined) {
+				usr.innerHTML = username.name
+			}
+
+			users.appendChild(usr)
+
+		}
+
+		function createUser(user){
+			let usrr = document.createElement("h1")
+			usrr.innerHTML = user.name
+
+			users.appendChild(usrr)
+		}
+
+		function createScore(data){
+			let score = document.createElement("h1")
+			score.innerHTML = data.count
+
+			scores.appendChild(score)
+		}
+
+		function createScores(niga){
+			let score = document.createElement("h1")
+
+			if (niga.count !== undefined) {
+				score.innerHTML = `:${niga.count}`
+			}
+
+
+			scores.appendChild(score)
+		}
+
+	</script>
+</body>
+</html>
